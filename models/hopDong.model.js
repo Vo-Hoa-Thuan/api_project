@@ -58,6 +58,7 @@ HopDong.insert = (hopDong, callback) => {
   });
 };
 
+
 HopDong.update = (hopDong, id, callback) => {
   const sqlString = `UPDATE ${HopDong.TB_NAME} SET ? WHERE ${HopDong.CLM_MA_HOP_DONG} = ?`;
   db.query(sqlString, [hopDong, id], (err, res) => {
@@ -77,6 +78,23 @@ HopDong.delete = (id, callback) => {
       return;
     }
     callback(null, `Xóa hợp đồng id = ${id} thành công`);
+  });
+};
+HopDong.getTenNguoiDungByIDHopDong = (id, callback) => {
+  const sqlString = `
+    SELECT ${NguoiDung.CLM_HO_TEN_NGUOI_DUNG} FROM ${NguoiDung.TB_NAME}
+    JOIN ${HopDong.TB_NAME} ON ${NguoiDung.TB_NAME}.${NguoiDung.CLM_MA_NGUOI_DUNG} = ${HopDong.TB_NAME}.${HopDong.CLM_MA_NGUOI_DUNG}
+    WHERE ${HopDong.CLM_MA_HOP_DONG} = ?
+  `;
+  db.query(sqlString, id, (err, result) => {
+    if (err) {
+      return callback(err);
+    }
+    if (result.length > 0) {
+      callback(null, result[0][NguoiDung.CLM_HO_TEN_NGUOI_DUNG]);
+    } else {
+      callback(null, "null");
+    }
   });
 };
 
