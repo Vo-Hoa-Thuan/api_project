@@ -13,7 +13,7 @@ const Phong = {
   },
 
   xoaPhongById: (maPhong, callback) => {
-    const sqlString = 'DELETE FROM Phong WHERE ma_phong = ?';
+    const sqlString = 'DELETE FROM phong WHERE ma_phong = ?';
     db.query(sqlString, maPhong, (err, res) => {
       if (err) {
         callback(err);
@@ -24,7 +24,7 @@ const Phong = {
   },
 
   updatePhong: (phong, callback) => {
-    const sqlString = 'UPDATE Phong SET ten_phong = ?, dien_tich = ?, gia_thue = ?, so_nguoi_o = ? WHERE ma_phong = ?';
+    const sqlString = 'UPDATE phong SET ten_phong = ?, dien_tich = ?, gia_thue = ?, so_nguoi_o = ? WHERE ma_phong = ?';
     db.query(sqlString, [phong.ten_phong, phong.dien_tich, phong.gia_thue, phong.so_nguoi_o, phong.ma_phong], (err, res) => {
       if (err) {
         callback(err);
@@ -35,7 +35,7 @@ const Phong = {
   },
 
   updateTrangThaiPhongThanhDangO: (maPhong, callback) => {
-    const sqlString = 'UPDATE Phong SET trang_thai_phong = 1 WHERE ma_phong = ?';
+    const sqlString = 'UPDATE phong SET trang_thai_phong = 1 WHERE ma_phong = ?';
     db.query(sqlString, maPhong, (err, res) => {
       if (err) {
         callback(err);
@@ -46,7 +46,7 @@ const Phong = {
   },
 
   updateTrangThaiPhongThanhDaO: (maPhong, callback) => {
-    const sqlString = 'UPDATE Phong SET trang_thai_phong = 0 WHERE ma_phong = ?';
+    const sqlString = 'UPDATE phong SET trang_thai_phong = 0 WHERE ma_phong = ?';
     db.query(sqlString, maPhong, (err, res) => {
       if (err) {
         callback(err);
@@ -57,7 +57,7 @@ const Phong = {
   },
 
   getPhongById: (id, callback) => {
-    const sqlString = 'SELECT * FROM Phong WHERE ma_phong = ?';
+    const sqlString = 'SELECT * FROM phong WHERE ma_phong = ?';
     db.query(sqlString, id, (err, result) => {
       if (err) {
         callback(err);
@@ -68,7 +68,7 @@ const Phong = {
   },
 
   getAll: (callback) => {
-    const sqlString = 'SELECT * FROM Phong';
+    const sqlString = 'SELECT * FROM phong';
     db.query(sqlString, (err, result) => {
       if (err) {
         callback(err);
@@ -79,7 +79,7 @@ const Phong = {
   },
 
   getAllInPhongByMaKhu: (maKhu, callback) => {
-    const sqlString = 'SELECT * FROM Phong WHERE ma_khu = ?';
+    const sqlString = 'SELECT * FROM phong WHERE ma_khu = ?';
     db.query(sqlString, maKhu, (err, result) => {
       if (err) {
         callback(err);
@@ -91,8 +91,8 @@ const Phong = {
 
   getAllInPhongByTenKhuTro: (tenKhuTro, callback) => {
     const sqlString = `
-      SELECT * FROM Phong 
-      JOIN KhuTro ON KhuTro.ma_khu_tro = Phong.ma_khu 
+      SELECT * FROM phong 
+      JOIN KhuTro ON KhuTro.ma_khu_tro = phong.ma_khu_tro 
       WHERE KhuTro.ten_khu_tro = ?
     `;
     db.query(sqlString, tenKhuTro, (err, result) => {
@@ -105,7 +105,7 @@ const Phong = {
   },
 
   getTenPhongById: (id, callback) => {
-    const sqlString = 'SELECT ten_phong FROM Phong WHERE ma_phong = ?';
+    const sqlString = 'SELECT ten_phong FROM phong WHERE ma_phong = ?';
     db.query(sqlString, id, (err, result) => {
       if (err) {
         callback(err);
@@ -118,7 +118,7 @@ const Phong = {
 
   getPhongChuaCoHopDong: (maKhu, callback) => {
     const sqlString = `
-      SELECT DISTINCT * FROM Phong
+      SELECT DISTINCT * FROM phong
       WHERE ma_phong NOT IN (
         SELECT ma_phong FROM HopDong WHERE hieu_luc_hop_dong = 1
       ) AND ma_khu = ?
@@ -134,7 +134,7 @@ const Phong = {
 
   getAllInPhongDaOMaKhu: (maKhu, callback) => {
     const sqlString = `
-      SELECT * FROM Phong 
+      SELECT * FROM phong 
       JOIN NguoiDung ON Phong.ma_phong = NguoiDung.ma_phong 
       WHERE ma_khu = ? AND NguoiDung.trang_thai_o = 1
     `;
@@ -148,7 +148,7 @@ const Phong = {
   },
 
   demSoPhong: (maKhu, callback) => {
-    const sqlString = 'SELECT COUNT(ma_phong) AS SoPhong FROM Phong WHERE ma_khu = ?';
+    const sqlString = 'SELECT COUNT(ma_phong) AS SoPhong FROM phong WHERE ma_khu = ?';
     db.query(sqlString, maKhu, (err, results) => {
       if (err) {
         callback(err);
