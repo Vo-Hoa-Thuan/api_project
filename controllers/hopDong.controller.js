@@ -52,6 +52,18 @@ module.exports = {
       }
     });
   },
+   getTenNguoiDungByIDHopDong: (req, res) => {
+    const id = req.params.id;
+    HopDong.getTenNguoiDungByIDHopDong(id, (err, result) => {
+      if (err) {
+        res.status(500).send({
+          message: err.message || `Đã xảy ra lỗi khi lấy tên người dùng từ hợp đồng có id ${id}.`
+        });
+      } else {
+        res.send(result);
+      }
+    });
+  },
 
   delete: (req, res) => {
     const id = req.params.id;
