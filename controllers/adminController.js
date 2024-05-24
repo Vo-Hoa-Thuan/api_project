@@ -44,14 +44,19 @@ module.exports = {
     const { username, password } = req.body;
     AdminModel.checkLogin(username, password, (err, valid) => {
       if (err) {
-        res.status(500).send({
+        return res.status(500).send({
           message: err.message || 'Some error occurred while checking login.',
         });
-      } else {
-        res.send({ valid });
       }
+      if (!valid) {
+        return res.status(401).send({
+          message: 'Invalid username or password.',
+        });
+      }
+      res.send({ valid });
     });
   },
+  
 
   getAdmin: (req, res) => {
     const { username } = req.params;
