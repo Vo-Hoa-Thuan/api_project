@@ -1,4 +1,4 @@
-const Phong = require('../models/phong.model');
+const Phong = require('../models/phong.Model');
 
 module.exports = {
   insertPhong: (req, res) => {
@@ -15,18 +15,18 @@ module.exports = {
   },
 
   xoaPhongById:
-  (req, res) => {
-    const maPhong = req.params.maPhong;
-    Phong.xoaPhongById(maPhong, (err, result) => {
-      if (err) {
-        res.status(500).send({
-          message: err.message || 'Some error occurred while deleting the Phong.',
-        });
-      } else {
-        res.send({ message: 'Phòng đã được xóa thành công' });
-      }
-    });
-  },
+    (req, res) => {
+      const maPhong = req.params.maPhong;
+      Phong.xoaPhongById(maPhong, (err, result) => {
+        if (err) {
+          res.status(500).send({
+            message: err.message || 'Some error occurred while deleting the Phong.',
+          });
+        } else {
+          res.send({ message: 'Phòng đã được xóa thành công' });
+        }
+      });
+    },
 
   updatePhong: (req, res) => {
     const maPhong = req.params.maPhong;
@@ -69,6 +69,8 @@ module.exports = {
     });
   },
 
+
+
   getAllInPhongByMaKhu: (req, res) => {
     const maKhu = req.params.maKhu;
     Phong.getAllInPhongByMaKhu(maKhu, (err, results) => {
@@ -104,6 +106,18 @@ module.exports = {
         });
       } else {
         res.send(result);
+      }
+    });
+  },
+
+  getAllPhong: (req, res) => {
+    Phong.getAll((err, results) => {
+      if (err) {
+        res.status(500).send({
+          message: err.message || 'Some error occurred while retrieving all Phong.',
+        });
+      } else {
+        res.send(results);
       }
     });
   },
