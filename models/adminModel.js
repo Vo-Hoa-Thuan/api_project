@@ -86,7 +86,7 @@ Admin.getAllInAdmin = (callback) => {
 // Check login credentials
 Admin.checkLogin = (username, password, callback) => {
   const sqlString = "SELECT * FROM admin WHERE ten_dang_nhap = ?";
-  db.query(sqlString, username, (error, results) => {
+  db.query(sqlString, [username], (error, results) => {
     if (error) {
       console.error("Database Query Error: ", error);
       return callback(error);
