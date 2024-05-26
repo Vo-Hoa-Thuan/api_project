@@ -58,14 +58,21 @@ const Phong = {
 
   getPhongById: (id, callback) => {
     const sqlString = 'SELECT * FROM phong WHERE ma_phong = ?';
-    db.query(sqlString, id, (err, result) => {
-      if (err) {
-        callback(err);
-        return;
-      }
-      callback(null, result);
+    db.query(sqlString, id, (err, results) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+        if (results.length > 0) {
+            const phong = results[0]; // Lấy phần tử đầu tiên của mảng kết quả
+            callback(null, phong); // Trả về phòng dưới dạng đối tượng JSON
+        } else {
+            // Trả về null nếu không có phòng nào được tìm thấy với mã phòng cụ thể
+            callback(null, null);
+        }
     });
-  },
+}
+,
 
   getAll: (callback) => {
     const sqlString = 'SELECT * FROM phong';
@@ -79,7 +86,7 @@ const Phong = {
   },
 
   getAllInPhongByMaKhu: (maKhu, callback) => {
-    const sqlString = 'SELECT * FROM phong WHERE ma_khu = ?';
+    const sqlString = 'SELECT * FROM phong WHERE ma_khu_tro = ?';
     db.query(sqlString, maKhu, (err, result) => {
       if (err) {
         callback(err);
@@ -121,7 +128,7 @@ const Phong = {
       SELECT DISTINCT * FROM phong
       WHERE ma_phong NOT IN (
         SELECT ma_phong FROM HopDong WHERE hieu_luc_hop_dong = 1
-      ) AND ma_khu = ?
+      ) AND ma_khu_tro = ?
     `;
     db.query(sqlString, maKhu, (err, result) => {
       if (err) {
@@ -136,7 +143,7 @@ const Phong = {
     const sqlString = `
       SELECT * FROM phong 
       JOIN NguoiDung ON Phong.ma_phong = NguoiDung.ma_phong 
-      WHERE ma_khu = ? AND NguoiDung.trang_thai_o = 1
+      WHERE ma_khu_tro = ? AND NguoiDung.trang_thai_o = 1
     `;
     db.query(sqlString, maKhu, (err, result) => {
       if (err) {
@@ -148,7 +155,7 @@ const Phong = {
   },
 
   demSoPhong: (maKhu, callback) => {
-    const sqlString = 'SELECT COUNT(ma_phong) AS SoPhong FROM phong WHERE ma_khu = ?';
+    const sqlString = 'SELECT COUNT(ma_phong) AS SoPhong FROM phong WHERE ma_khu_tro = ?';
     db.query(sqlString, maKhu, (err, results) => {
       if (err) {
         callback(err);
