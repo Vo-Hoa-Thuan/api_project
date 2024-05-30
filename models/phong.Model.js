@@ -111,17 +111,22 @@ const Phong = {
     });
   },
 
-  getTenPhongById: (id, callback) => {
-    const sqlString = 'SELECT ten_phong FROM phong WHERE ma_phong = ?';
-    db.query(sqlString, id, (err, result) => {
+
+getTenPhongById: (id, callback) => {
+  const sqlString = 'SELECT ten_phong FROM phong WHERE ma_phong = ?';
+  db.query(sqlString, id, (err, result) => {
       if (err) {
-        callback(err);
-        return;
+          
+          callback(err);
+          return;
       }
       const tenPhong = result.length > 0 ? result[0].ten_phong : null;
-      callback(null, tenPhong);
-    });
-  },
+
+      const response = tenPhong;
+      callback(null, response);
+  });
+},
+
 
   getPhongChuaCoHopDong: (maKhu, callback) => {
     const sqlString = `
