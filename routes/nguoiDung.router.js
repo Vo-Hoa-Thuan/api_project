@@ -23,4 +23,5 @@ module.exports = function (router) {
     // router.get("/nguoidung/:maPhong/tennguoidao", nguoiDungController.getTenNguoiDaOByMaPhong);
     router.get("/nguoidung/:maPhong/manguoidango", nguoiDungController.getMaNguoiDangOByMaPhong);
     router.put("/nguoidung/:maPhong/updatetrangthaidao", nguoiDungController.updateTrangThaiNguoiDungThanhDaO);
+    router.delete("/nguoidung/phong/:ma_phong", nguoiDungController.deleteByRoomId);
 };

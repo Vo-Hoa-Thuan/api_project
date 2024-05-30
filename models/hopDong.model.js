@@ -60,13 +60,13 @@ HopDong.insert = (hopDong, callback) => {
 
 
 HopDong.update = (hopDong, id, callback) => {
-  const sqlString = `UPDATE ${HopDong.TB_NAME} SET ? WHERE ${HopDong.CLM_MA_HOP_DONG} = ?`;
+  const sqlString = "UPDATE HopDong SET ? WHERE ma_hop_dong = ?";
   db.query(sqlString, [hopDong, id], (err, res) => {
     if (err) {
       callback(err);
       return;
     }
-    callback(null, `Cập nhật hợp đồng id = ${id} thành công`);
+    callback(null, "Cập nhật hợp đồng id = " + id + " thành công");
   });
 };
 

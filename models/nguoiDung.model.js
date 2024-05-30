@@ -64,7 +64,16 @@ NguoiDung.delete = (ma_nguoi_dung, callBack) => {
     callBack("xóa người dùng mã = " + ma_nguoi_dung + " thành công");
   });
 };
-
+NguoiDung.deleteByRoomId = (ma_phong, callBack) => {
+  const sqlString = "DELETE FROM NguoiDung WHERE ma_phong = ?";
+  db.query(sqlString, ma_phong, (err, res) => {
+    if (err) {
+      callBack(err);
+      return;
+    }
+    callBack("Xóa tất cả người dùng trong phòng có mã = " + ma_phong + " thành công");
+  });
+};
 // NguoiDung.getAllByTenPhong = (tenPhong, callback) => {
 //   const sqlString = `
 //     SELECT *

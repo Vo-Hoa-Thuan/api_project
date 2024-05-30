@@ -35,7 +35,12 @@ module.exports = {
       res.send(result);
     });
   },
-
+  deleteByRoomId: (req, res) => {
+    const ma_phong = req.params.ma_phong;
+    NguoiDung.deleteByRoomId(ma_phong, (result) => {
+      res.send(result);
+    });
+  },
   // getAllByTenPhong: (req, res) => {
   //   try {
   //     const tenPhong = req.params.tenphong;
