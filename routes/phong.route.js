@@ -13,5 +13,6 @@ module.exports = function (router) {
     router.get('/phong/da-o/:maKhu', phongController.getAllInPhongDaOMaKhu);
     router.get('/phong/dem/:maKhu', phongController.demSoPhong);
     router.get('/phong/all', phongController.getAllPhong);
+    router.put('/phong/update-so-luong-phong/:maKhu', phongController.updateSoLuongPhongByMaKhu);
   };
   

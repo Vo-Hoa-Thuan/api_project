@@ -116,8 +116,9 @@ module.exports = {
           message: err.message || 'Some error occurred while retrieving the TenPhong.',
         });
       } else {
-        res.send(result);
+        res.send({result});
       }
+
     });
   },
 
@@ -168,6 +169,19 @@ module.exports = {
         });
       } else {
         res.send(results);
+      }
+    });
+  },
+
+  updateSoLuongPhongByMaKhu: (req, res) => {
+    const maKhu = req.params.maKhu;
+    Phong.updateSoLuongPhongByMaKhu(maKhu, (err, result) => {
+      if (err) {
+        res.status(500).send({
+          message: err.message || 'Some error occurred while updating the number of rooms for the Khu.',
+        });
+      } else {
+        res.send({ message: result });
       }
     });
   }

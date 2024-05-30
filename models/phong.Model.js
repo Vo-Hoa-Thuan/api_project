@@ -164,7 +164,26 @@ const Phong = {
       const soPhong = results.length > 0 ? results[0].SoPhong : 0;
       callback(null, soPhong);
     });
+  },
+
+updateSoLuongPhongByMaKhu: (maKhu, callback) => {
+  const sqlString = `
+    UPDATE KhuTro
+    SET so_luong_phong = (
+      SELECT COUNT(ma_phong)
+      FROM phong
+      WHERE ma_khu_tro = ?
+    )
+    WHERE ma_khu_tro = ?
+  `;
+  db.query(sqlString, [maKhu, maKhu], (err, result) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+    callback(null, `Cập nhật số lượng phòng cho khu có mã ${maKhu} thành công`);
+  });
   }
-};
+}; 
 
 module.exports = Phong;
