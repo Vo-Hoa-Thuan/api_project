@@ -116,10 +116,18 @@ module.exports = {
           message: err.message || 'Some error occurred while retrieving the TenPhong.',
         });
       } else {
-        res.send(result);
+        // Kiểm tra xem result có phải là một chuỗi hợp lệ không
+        if (typeof result === 'string') {
+          res.json({ ten_phong: result }); // Gửi lại tên phòng dưới dạng JSON
+        } else {
+          res.status(500).send({
+            message: 'Invalid response from getTenPhongById function.'
+          });
+        }
       }
     });
   },
+
 
   getPhongChuaCoHopDong: (req, res) => {
     const maKhu = req.params.maKhu;
@@ -168,6 +176,19 @@ module.exports = {
         });
       } else {
         res.send(results);
+      }
+    });
+  },
+
+  updateSoLuongPhongByMaKhu: (req, res) => {
+    const maKhu = req.params.maKhu;
+    Phong.updateSoLuongPhongByMaKhu(maKhu, (err, result) => {
+      if (err) {
+        res.status(500).send({
+          message: err.message || 'Some error occurred while updating the number of rooms for the Khu.',
+        });
+      } else {
+        res.send({ message: result });
       }
     });
   }

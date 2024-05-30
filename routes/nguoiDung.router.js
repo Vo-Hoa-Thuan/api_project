@@ -1,5 +1,7 @@
 module.exports = function (router) {
-    const nguoiDungController = require("../controllers/nguoiDung.controller");
+    const nguoiDungController = require("../controllers/nguoidung.controller");
+
+    
     router.get("/nguoidung", nguoiDungController.getAll);
     router.post("/nguoidung", nguoiDungController.insert);
     // router.get("/nguoidung/:ma_nguoi_dung", nguoiDungController.getById);

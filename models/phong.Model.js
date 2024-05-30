@@ -111,21 +111,21 @@ const Phong = {
     });
   },
 
-  getTenPhongById: (id, callback) => {
-    const sqlString = 'SELECT ten_phong FROM phong WHERE ma_phong = ?';
-    db.query(sqlString, id, (err, result) => {
-      if (err) {
-        callback(err, null);
-        return;
+
+getTenPhongById: (id, callback) => {
+  const sqlString = 'SELECT ten_phong FROM phong WHERE ma_phong = ?';
+  db.query(sqlString, id, (err, result) => {
+      if (err) {  
+          callback(err);
+          return;
       }
-      if (result.length > 0) {
-        const tenPhong = { ten_phong: result[0].ten_phong };
-        callback(null, tenPhong); // Trả về đối tượng có cấu trúc mong muốn
-      } else {
-        callback(null, null); // Không có kết quả
-      }
-    });
-  },
+      const tenPhong = result.length > 0 ? result[0].ten_phong : null;
+
+      const response = tenPhong;
+      callback(null, response);
+  });
+},
+
 
   getPhongChuaCoHopDong: (maKhu, callback) => {
     const sqlString = `
@@ -168,7 +168,26 @@ const Phong = {
       const soPhong = results.length > 0 ? results[0].SoPhong : 0;
       callback(null, soPhong);
     });
+  },
+
+updateSoLuongPhongByMaKhu: (maKhu, callback) => {
+  const sqlString = `
+    UPDATE KhuTro
+    SET so_luong_phong = (
+      SELECT COUNT(ma_phong)
+      FROM phong
+      WHERE ma_khu_tro = ?
+    )
+    WHERE ma_khu_tro = ?
+  `;
+  db.query(sqlString, [maKhu, maKhu], (err, result) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+    callback(null, `Cập nhật số lượng phòng cho khu có mã ${maKhu} thành công`);
+  });
   }
-};
+}; 
 
 module.exports = Phong;
