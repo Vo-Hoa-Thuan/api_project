@@ -6,5 +6,7 @@ module.exports = function(router) {
     router.get("/hopDong/:id", hopDongController.getById);
     router.delete("/hopDong/:id", hopDongController.delete);
     router.put("/hopDong/:id", hopDongController.update);
-     router.get("/hopDong/:id/tenNguoiDung", hopDongController.getTenNguoiDungByIDHopDong);
+    router.get("/hopDong/:id/tenNguoiDung", hopDongController.getTenNguoiDungByIDHopDong);
+    router.get("/hopDong/hanCon/:maKhu/", hopDongController.getHopDongConHanByMaKhu);
+    router.get("/hopDong/hanHet/:maKhu/", hopDongController.getHopDongHetHanByMaKhu);
 };

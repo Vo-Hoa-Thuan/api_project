@@ -115,11 +115,15 @@ const Phong = {
     const sqlString = 'SELECT ten_phong FROM phong WHERE ma_phong = ?';
     db.query(sqlString, id, (err, result) => {
       if (err) {
-        callback(err);
+        callback(err, null);
         return;
       }
-      const tenPhong = result.length > 0 ? result[0].ten_phong : null;
-      callback(null, tenPhong);
+      if (result.length > 0) {
+        const tenPhong = { ten_phong: result[0].ten_phong };
+        callback(null, tenPhong); // Trả về đối tượng có cấu trúc mong muốn
+      } else {
+        callback(null, null); // Không có kết quả
+      }
     });
   },
 

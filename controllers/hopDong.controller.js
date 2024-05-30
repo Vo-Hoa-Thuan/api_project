@@ -77,4 +77,29 @@ module.exports = {
       }
     });
   },
+  getHopDongConHanByMaKhu: (req, res) => {
+    const maKhu = req.params.maKhu;
+    HopDong.getHopDongConHanByMaKhu(maKhu, (err, hopDongs) => {
+      if (err) {
+        res.status(500).send({
+          message: err.message || "Đã xảy ra lỗi khi lấy danh sách hợp đồng."
+        });
+      } else {
+        res.send(hopDongs);
+      }
+    });
+  },
+
+  getHopDongHetHanByMaKhu: (req, res) => {
+    const maKhu = req.params.maKhu;
+    HopDong.getHopDongHetHanByMaKhu(maKhu, (err, hopDongs) => {
+      if (err) {
+        res.status(500).send({
+          message: err.message || "Đã xảy ra lỗi khi lấy danh sách hợp đồng."
+        });
+      } else {
+        res.send(hopDongs);
+      }
+    });
+  }
 };

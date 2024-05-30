@@ -82,19 +82,61 @@ HopDong.delete = (id, callback) => {
 };
 HopDong.getTenNguoiDungByIDHopDong = (id, callback) => {
   const sqlString = `
-    SELECT ${NguoiDung.CLM_HO_TEN_NGUOI_DUNG} FROM ${NguoiDung.TB_NAME}
-    JOIN ${HopDong.TB_NAME} ON ${NguoiDung.TB_NAME}.${NguoiDung.CLM_MA_NGUOI_DUNG} = ${HopDong.TB_NAME}.${HopDong.CLM_MA_NGUOI_DUNG}
-    WHERE ${HopDong.CLM_MA_HOP_DONG} = ?
+    SELECT ho_ten_nguoi_dung 
+    FROM HopDong
+    JOIN NguoiDung ON NguoiDung.ma_nguoi_dung = HopDong.ma_nguoi_dung 
+    WHERE HopDong.ma_hop_dong = ?
   `;
   db.query(sqlString, id, (err, result) => {
     if (err) {
-      return callback(err);
+      callback(err, null);
+      return;
     }
     if (result.length > 0) {
-      callback(null, result[0][NguoiDung.CLM_HO_TEN_NGUOI_DUNG]);
+      const tenNguoiDung = { ho_ten_nguoi_dung: result[0].ho_ten_nguoi_dung };
+      callback(null, tenNguoiDung); // Trả về đối tượng có cấu trúc mong muốn
     } else {
-      callback(null, "null");
+      callback(null, null); // Không có kết quả
     }
+  });
+};
+HopDong.getHopDongConHanByMaKhu = (maKhu, callback) => {
+  const sqlString = `
+    SELECT HopDong.* FROM HopDong
+    JOIN Phong ON HopDong.ma_phong = Phong.ma_phong
+    JOIN KhuTro ON Phong.ma_khu_tro = KhuTro.ma_khu_tro
+    WHERE KhuTro.ma_khu_tro = ?
+  `;
+  db.query(sqlString, [maKhu], (err, result) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+    const hopDongConHan = result.filter(hopDong => {
+      const ngayHetHan = new Date(hopDong.ngay_hop_dong);
+      return ngayHetHan > new Date();
+    });
+    callback(null, hopDongConHan);
+  });
+};
+
+HopDong.getHopDongHetHanByMaKhu = (maKhu, callback) => {
+  const sqlString = `
+    SELECT HopDong.* FROM HopDong
+    JOIN Phong ON HopDong.ma_phong = Phong.ma_phong
+    JOIN KhuTro ON Phong.ma_khu_tro = KhuTro.ma_khu_tro
+    WHERE KhuTro.ma_khu_tro = ?
+  `;
+  db.query(sqlString, [maKhu], (err, result) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+    const hopDongHetHan = result.filter(hopDong => {
+      const ngayHetHan = new Date(hopDong.ngay_hop_dong);
+      return ngayHetHan <= new Date();
+    });
+    callback(null, hopDongHetHan);
   });
 };
 
