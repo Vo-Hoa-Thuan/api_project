@@ -60,8 +60,8 @@ HopDong.insert = (hopDong, callback) => {
 
 
 HopDong.update = (hopDong, id, callback) => {
-  const sqlString = "UPDATE HopDong SET ? WHERE ma_hop_dong = ?";
-  db.query(sqlString, [hopDong, id], (err, res) => {
+  const sqlString = "UPDATE HopDong SET thoi_han = ?, ngay_hop_dong = ?, ngay_o = ? WHERE ma_hop_dong = ?";
+  db.query(sqlString, [hopDong.thoi_han, hopDong.ngay_hop_dong, hopDong.ngay_o, id], (err, res) => {
     if (err) {
       callback(err);
       return;
