@@ -42,6 +42,7 @@ module.exports = {
       }
     });
   },
+  
 
   updateTrangThaiPhongThanhDangO: (req, res) => {
     const maPhong = req.params.maPhong;
@@ -77,10 +78,17 @@ module.exports = {
           message: err.message || 'Some error occurred while retrieving Phong by MaKhu.',
         });
       } else {
-        res.send(results);
+        if (results.length > 0) {
+          res.send(results);
+        } else {
+          res.status(404).send({
+            message: 'No Phong found for the specified MaKhu.',
+          });
+        }
       }
     });
-  },
+},
+
 
   getAllInPhongByTenKhuTro: (req, res) => {
     const tenKhuTro = req.params.tenKhuTro;

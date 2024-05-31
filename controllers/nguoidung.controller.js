@@ -152,20 +152,19 @@ module.exports = {
     });
   },
 
-  // getTenNguoiDaOByMaPhong: (req, res) => {
-  //   const maPhong = req.params.maPhong;
-  //   NguoiDung.getTenNguoiDaOByMaPhong(maPhong, (result) => {
-  //     res.send(result);
-  //   });
-  // },
-
   getMaNguoiDangOByMaPhong: (req, res) => {
     const maPhong = req.params.maPhong;
-    NguoiDung.getMaNguoiDangOByMaPhong(maPhong, (result) => {
-      res.send(result);
+    NguoiDung.getMaNguoiDangOByMaPhong(maPhong, (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+      if (!result) {
+        return res.status(404).json({ error: 'Not found' });
+      }
+      res.json({ ma_nguoi_dang_o: result });
     });
   },
-
+  
   updateTrangThaiNguoiDungThanhDaO: (req, res) => {
     const maPhong = req.params.maPhong;
     NguoiDung.updateTrangThaiNguoiDungThanhDaO(maPhong, (result) => {

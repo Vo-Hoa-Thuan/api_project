@@ -44,6 +44,25 @@ NguoiDung.insert = (nguoiDung, callBack) => {
   });
 };
 
+NguoiDung.getMaNguoiDangOByMaPhong = (maPhong, callback) => {
+  const sqlString = `
+    SELECT NguoiDung.ma_nguoi_dung
+    FROM NguoiDung
+    JOIN HopDong ON NguoiDung.ma_nguoi_dung = HopDong.ma_nguoi_dung
+    JOIN Phong ON HopDong.ma_phong = Phong.ma_phong
+    WHERE NguoiDung.ma_phong = ? AND NguoiDung.trang_thai_o = 1
+    LIMIT 1
+  `;
+  db.query(sqlString, [maPhong], (err, result) => {
+    if (err) {
+      return callback(err);
+    }
+    callback(null, result[0] ? result[0].ma_nguoi_dung : null);
+  });
+};
+
+
+
 NguoiDung.update = (nguoiDung, ma_nguoi_dung, callBack) => {
   const sqlString = "UPDATE NguoiDung SET ? WHERE ma_nguoi_dung = ?";
   db.query(sqlString, [nguoiDung, ma_nguoi_dung], (err, res) => {
@@ -339,23 +358,6 @@ NguoiDung.getTenNguoiDangOByMaPhong = (maPhong, callback) => {
 //     callback(result[0]?.ho_ten_nguoi_dung || "null");
 //   });
 // };
-
-NguoiDung.getMaNguoiDangOByMaPhong = (maPhong, callback) => {
-  const sqlString = `
-    SELECT NguoiDung.ma_nguoi_dung
-    FROM NguoiDung
-    JOIN HopDong ON NguoiDung.ma_nguoi_dung = HopDong.ma_nguoi_dung
-    JOIN Phong ON HopDong.ma_phong = Phong.ma_phong
-    WHERE NguoiDung.ma_phong = ? AND NguoiDung.trang_thai_o = 1
-    LIMIT 1
-  `;
-  db.query(sqlString, [maPhong], (err, result) => {
-    if (err) {
-      return callback(err);
-    }
-    callback(result[0]?.ma_nguoi_dung || "null");
-  });
-};
 
 NguoiDung.updateTrangThaiNguoiDungThanhDaO = (maPhong, callback) => {
   const sqlString = `

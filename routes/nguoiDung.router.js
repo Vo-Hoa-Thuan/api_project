@@ -20,7 +20,7 @@ module.exports = function (router) {
     router.get("/nguoidung/dang-o/:maKhu", nguoiDungController.getAllInNguoiDangOByMaKhu);
     router.get("/nguoidung/da-o/:maKhu", nguoiDungController.getAllInNguoiDaOByMaKhu);
     router.get("/nguoidung/:maPhong/tennguoidango", nguoiDungController.getTenNguoiDangOByMaPhong);
-    // router.get("/nguoidung/:maPhong/tennguoidao", nguoiDungController.getTenNguoiDaOByMaPhong);
+    // router.get("manguoidango/nguoidung/:maPhong/tennguoidao", nguoiDungController.getTenNguoiDaOByMaPhong);
     router.get("/nguoidung/:maPhong/manguoidango", nguoiDungController.getMaNguoiDangOByMaPhong);
     router.put("/nguoidung/:maPhong/updatetrangthaidao", nguoiDungController.updateTrangThaiNguoiDungThanhDaO);
     router.delete("/nguoidung/phong/:ma_phong", nguoiDungController.deleteByRoomId);
