@@ -199,5 +199,19 @@ module.exports = {
         res.send({ message: result });
       }
     });
+  },
+
+  deleteHopDongIfPhongMaZero: (req, res) => {
+    const maPhong = req.params.maPhong;
+    Phong.deleteHopDongIfPhongMaZero(maPhong, (err, result) => {
+      if (err) {
+        res.status(500).send({
+          message: err.message || 'Some error occurred while deleting hopdong.',
+        });
+      } else {
+        res.send({ message: result });
+      }
+    });
   }
+
 };

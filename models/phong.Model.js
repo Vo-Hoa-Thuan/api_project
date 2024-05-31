@@ -187,7 +187,33 @@ updateSoLuongPhongByMaKhu: (maKhu, callback) => {
     }
     callback(null, `Cập nhật số lượng phòng cho khu có mã ${maKhu} thành công`);
   });
+  },
+
+  deleteHopDongIfPhongMaZero: (maPhong, callback) => {
+    // First, check if the maPhong in the phong table is 0
+    const checkPhongQuery = 'SELECT * FROM phong WHERE ma_phong = ? AND trang_thai_phong	 = 0';
+    db.query(checkPhongQuery, maPhong, (err, results) => {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      if (results.length > 0) {
+        // If trang_thai_phong	 is 0, delete all records in hopdong with the same ma_phong
+        const deleteHopDongQuery = 'DELETE FROM hopdong WHERE ma_phong = ?';
+        db.query(deleteHopDongQuery, maPhong, (err, res) => {
+          if (err) {
+            callback(err);
+            return;
+          }
+          callback(null, `Deleted all hopdong with ma_phong = ${maPhong}`);
+        });
+      } else {
+        callback(null, `No phong with ma_phong = ${maPhong} and trang_thai_phong = 0 found`);
+      }
+    });
   }
+
 }; 
 
 module.exports = Phong;
