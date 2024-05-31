@@ -14,5 +14,6 @@ module.exports = function (router) {
     router.get('/phong/dem/:maKhu', phongController.demSoPhong);
     router.get('/phong/all', phongController.getAllPhong);
     router.put('/phong/update-so-luong-phong/:maKhu', phongController.updateSoLuongPhongByMaKhu);
+    router.delete('/hopdong/if-phong-zero/:maPhong', phongController.deleteHopDongIfPhongMaZero);
   };
   
