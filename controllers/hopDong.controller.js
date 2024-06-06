@@ -1,17 +1,17 @@
 const HopDong = require("../models/hopDong.model");
 
 module.exports = {
-  getAll: (req, res) => {
-    HopDong.getAll((err, result) => {
+  getAllHopDongByMaKhu: (req, res) => {
+    const maKhu = req.params.maKhu;
+  
+    HopDong.getAllByMaKhu(maKhu, (err, result) => {
       if (err) {
-        res.status(500).send({
-          message: err.message || "Đã xảy ra lỗi khi lấy danh sách hợp đồng."
-        });
-      } else {
-        res.send(result);
+        return res.status(500).send({ error: 'An error occurred while retrieving contracts.' });
       }
+      res.send(result);
     });
   },
+  
 
   getById: (req, res) => {
     const id = req.params.id;

@@ -37,9 +37,13 @@ HopDong.getById = (id, callback) => {
   });
 };
 
-HopDong.getAll = (callback) => {
-  const sqlString = `SELECT * FROM ${HopDong.TB_NAME}`;
-  db.query(sqlString, (err, result) => {
+HopDong.getAllByMaKhu = (maKhu, callback) => {
+  const sqlString = `
+    SELECT hd.* 
+    FROM ${HopDong.TB_NAME} hd
+    JOIN Phong p ON hd.ma_phong = p.ma_phong
+    WHERE p.ma_khu_tro = ?`;
+  db.query(sqlString, [maKhu], (err, result) => {
     if (err) {
       return callback(err);
     }
